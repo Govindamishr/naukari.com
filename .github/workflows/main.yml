@@ -1,9 +1,11 @@
 name: Refresh Naukri Resume
 
 on:
+  # Runs automatically every 1 hour
   schedule:
-    - cron: '0 * * * *' # runs every hour
-  workflow_dispatch: # allow manual trigger
+    - cron: "0 * * * *"
+  # Allows manual trigger from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   refresh:
@@ -11,21 +13,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          npm ci
+          npx playwright install-deps
+          npx playwright install
 
       - name: Run Playwright test
-        run: npx playwright test tests/naukriProfile.spec.js --headed=false
-        env:
-          NAUKRI_USER: ${{ secrets.NAUKRI_USER }}
-          NAUKRI_PASS: ${{ secrets.NAUKRI_PASS }}
+        run: npx playwright test
