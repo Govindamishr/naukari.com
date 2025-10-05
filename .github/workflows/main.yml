@@ -1,10 +1,8 @@
 name: Refresh Naukri Resume
 
 on:
-  # Runs automatically every 1 hour
   schedule:
-    - cron: "0 * * * *"
-  # Allows manual trigger from GitHub Actions tab
+    - cron: "0 * * * *"   # every 1 hour
   workflow_dispatch:
 
 jobs:
@@ -26,5 +24,9 @@ jobs:
           npx playwright install-deps
           npx playwright install
 
-      - name: Run Playwright test
-        run: npx playwright test
+      - name: Run Playwright test in headless mode
+        env:
+          CI: true
+          HEADLESS: true
+        run: |
+          npx playwright test --headed=false
