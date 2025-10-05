@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 60000,
   use: {
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
