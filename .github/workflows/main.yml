@@ -2,7 +2,7 @@ name: Refresh Naukri Resume
 
 on:
   schedule:
-    - cron: "0 * * * *"   # every 1 hour
+    - cron: "0 * * * *"   # runs every hour
   workflow_dispatch:
 
 jobs:
@@ -24,9 +24,8 @@ jobs:
           npx playwright install-deps
           npx playwright install
 
-      - name: Run Playwright test in headless mode
+      - name: Run Playwright test (headless mode)
         env:
           CI: true
-          HEADLESS: true
         run: |
-          npx playwright test --headed=false
+          npx playwright test
