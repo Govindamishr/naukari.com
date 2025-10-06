@@ -2,7 +2,7 @@ name: Refresh Naukri Resume
 
 on:
   schedule:
-    - cron: "0 * * * *"   # runs every hour
+    - cron: "0 * * * *"   # every hour
   workflow_dispatch:
 
 jobs:
@@ -11,21 +11,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install-deps
-          npx playwright install
+          npx playwright install --with-deps
 
-      - name: Run Playwright test (headless mode)
-        env:
-          CI: true
+      - name: Run Playwright test (headed mode)
         run: |
-          npx playwright test
+          xvfb-run --auto-servernum --server-args='-screen 0 1280x720x24' npx playwright test --headed
